@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:18:35 by ttavares          #+#    #+#             */
-/*   Updated: 2023/01/23 16:10:16 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:04:54 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	printlist(t_stack *current_a)
 {
 	while (current_a != NULL)
 	{
-		ft_printf("%d\n", current_a->val);
+		ft_printf("%d  ", current_a->val);
 		current_a = current_a->next;
 	}
 }
@@ -65,13 +65,24 @@ void	insert_after(t_stack *prev, int value)
 	prev->next = new;
 }
 
-void	swap(t_stack **head)
+void	swap(t_stack **head, char c)
 {
-	t_stack	*swap;
+	t_stack	*swapa;
+	t_stack	*swapc;
 
-	swap = (*head)->next;
-	(*head)->next = *head;
-	*head = swap;
+	if ((*head)->next == NULL)
+		return;
+	swapa = *head;
+	swapc = (*head)->next->next;
+	*head = (*head)->next;
+	(*head)->next = swapa;
+	swapa->next = swapc;
+	if (c == 'a')
+		ft_printf("sa\n");
+	if (c == 'b')
+		ft_printf("sb\n");
+	if (c == 's')
+		ft_printf("ss\n");
 }
 
 int	main(int argc, char **argv)
@@ -99,11 +110,18 @@ int	main(int argc, char **argv)
 				j++;
 		}
 		insert_tail(&head_a, ft_atoi(argv[i]));
+		insert_tail(&head_b, ft_atoi(argv[i]));
 		i++;
 	}
 	printlist(head_a);
 	ft_printf("A\n");
-	swap(&head_a);
+	printlist(head_b);
+	ft_printf("B\n");
+	swap(&head_a, 's');
+	swap(&head_b,'e');
 	printlist(head_a);
+	ft_printf("A\n");
+	printlist(head_b);
+	ft_printf("B\n");
 	return (0);
 }
