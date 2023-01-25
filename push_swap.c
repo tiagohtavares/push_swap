@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:18:35 by ttavares          #+#    #+#             */
-/*   Updated: 2023/01/23 17:04:54 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:34:24 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,92 @@ void	swap(t_stack **head, char c)
 		ft_printf("ss\n");
 }
 
+void	push(t_stack **head_1, t_stack **head_2, char c)
+{
+	t_stack	*swap;
+
+	(void)c;
+	if (*head_1 == NULL)
+		return;
+	swap = (*head_1)->next;
+	(*head_1)->next = *head_2;
+	*head_2 = *head_1;
+	*head_1 = swap;
+	if (c == 'a')
+		ft_printf("pa\n");
+	if (c == 'b')
+		ft_printf("pb\n");
+}
+
+void	shiftup(t_stack **head, char c)
+{
+	t_stack *swap;
+	t_stack *current;
+
+	if ((*head)->next == NULL)
+		return;
+	swap = *head;
+	*head =(*head)->next;
+	swap->next = NULL;
+	current = *head;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = swap;
+	if (c == 'a')
+		ft_printf("ra\n");
+	if (c == 'b')
+		ft_printf("rb\n");
+	if (c == 'r')
+		ft_printf("rr\n");
+}
+
+void	shiftdown(t_stack **head, char c)
+{
+	t_stack *current;
+
+	if ((*head)->next == NULL)
+		return;
+	current = *head;
+	while (current->next->next != NULL)
+		current = current->next;
+	current->next->next = *head;
+	*head = current->next;
+	current->next = NULL;
+	if (c == 'a')
+		ft_printf("rra\n");
+	if (c == 'b')
+		ft_printf("rrb\n");
+	if (c == 'r')
+		ft_printf("rrr\n");
+}
+
+int	stacklenght(t_stack *head)
+{
+	t_stack	*current;
+	int	i;
+
+	i = 0;
+	current = head;
+	while(current != NULL)
+	{
+		current = current->next;
+		i++;
+	}
+	return (i);
+}
+
+void	sort(t_stack **head_a, t_stack **head_b)
+{
+	int	i;
+
+	i = 0;
+	while (i < stacklenght(*head_a))
+	{
+		push(head_a,head_b,'b');
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*head_a;
@@ -110,18 +196,22 @@ int	main(int argc, char **argv)
 				j++;
 		}
 		insert_tail(&head_a, ft_atoi(argv[i]));
-		insert_tail(&head_b, ft_atoi(argv[i]));
 		i++;
 	}
 	printlist(head_a);
 	ft_printf("A\n");
 	printlist(head_b);
 	ft_printf("B\n");
-	swap(&head_a, 's');
-	swap(&head_b,'e');
+	ft_printf("BEFORE \n\n");
+	ft_printf("|COMMANDS|\n");
+
+	sort(&head_a,&head_b);
+
+	ft_printf("|COMMANDS|\n\n");
 	printlist(head_a);
 	ft_printf("A\n");
 	printlist(head_b);
 	ft_printf("B\n");
+	ft_printf("AFTER \n");
 	return (0);
 }
