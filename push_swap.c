@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:18:35 by ttavares          #+#    #+#             */
-/*   Updated: 2023/01/25 16:34:24 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:16:44 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	printlist(t_stack *current_a)
 {
 	while (current_a != NULL)
 	{
-		ft_printf("%d  ", current_a->val);
+		ft_printf("%d ", current_a->val);
 		current_a = current_a->next;
 	}
 }
@@ -49,20 +49,6 @@ void	insert_tail(t_stack **head, int value)
 	while(curr->next != NULL)
 		curr = curr->next;
 	curr->next = new;
-}
-
-void	insert_after(t_stack *prev, int value)
-{
-	t_stack *new;
-
-	if (prev == NULL)
-		return;
-	new = malloc(sizeof(t_stack));
-	if (!new)
-		exit (1);
-	new->val = value;
-	new->next = prev->next;
-	prev->next = new;
 }
 
 void	swap(t_stack **head, char c)
@@ -144,7 +130,7 @@ void	shiftdown(t_stack **head, char c)
 		ft_printf("rrr\n");
 }
 
-int	stacklenght(t_stack *head)
+int	stacklen(t_stack *head)
 {
 	t_stack	*current;
 	int	i;
@@ -159,16 +145,80 @@ int	stacklenght(t_stack *head)
 	return (i);
 }
 
-void	sort(t_stack **head_a, t_stack **head_b)
+int	list_is_sorted(t_stack **head_a, int size)
 {
+	t_stack *current;
+
+	if (*head_a == NULL)
+		return (0);
+	current = *head_a;
+	while (current->next != NULL && (current->val < current->next->val))
+	{
+		current = current->next;
+	}
+	if (current->next == NULL && size == stacklen(*head_a))
+		return (1);
+	return (0);
+}
+
+void	sort_big(t_stack **head_a, t_stack **head_b,int size)
+{
+	t_stack	*current;
+	int min;
 	int	i;
 
+	current = *head_a;
+	min = (*head_a)->val;
 	i = 0;
-	while (i < stacklenght(*head_a))
+	while (!list_is_sorted(head_a, size) && stacklen(*head_a) != 0)
 	{
-		push(head_a,head_b,'b');
-		i++;
+		while (current != NULL)
+		{
+			if (min > current->val)
+				{
+					min = current->val;
+				}
+			current = current->next;
+		}
+		while (min != (*head_a)->val)
+		{
+			shiftup(head_a, 'a');
+		}
+		push(head_a, head_b, 'b');
+		if (*head_a != NULL)
+		{
+			min = (*head_a)->val;
+			current = *head_a;
+		}
 	}
+	while ((stacklen(*head_b) > 0))
+	{
+		push(head_b, head_a, 'a');
+	}
+}
+
+void	sort_small(t_stack **head_a, int size)
+{
+	while (!list_is_sorted(head_a, size) && stacklen(*head_a) != 0)
+	{
+		if (((*head_a)->val > (*head_a)->next->val) && (*head_a)->val < (*head_a)->next->next->val)
+			swap(head_a, 'a');
+		if ((((*head_a)->val < (*head_a)->next->val)) && ((*head_a)->val > (*head_a)->next->next->val))
+			shiftdown(head_a, 'a');
+		if(((*head_a)->val > (*head_a)->next->val) && ((*head_a)->next->val < (*head_a)->next->next->val))
+			shiftup(head_a, 'a');
+		if (((*head_a)->val > (*head_a)->next->val) && (((*head_a)->val > (*head_a)->next->next->val)))
+		{
+			swap(head_a, 'a');
+			shiftdown(head_a,'a');
+		}
+		if(((*head_a)->val < (*head_a)->next->val) && (((*head_a)->next->val > (*head_a)->next->next->val)))
+		{
+			swap (head_a,'a');
+			shiftup(head_a,'a');
+		}
+	}
+
 }
 
 int	main(int argc, char **argv)
@@ -205,7 +255,10 @@ int	main(int argc, char **argv)
 	ft_printf("BEFORE \n\n");
 	ft_printf("|COMMANDS|\n");
 
-	sort(&head_a,&head_b);
+	if (stacklen(head_a) > 3)
+		sort_big(&head_a,&head_b,stacklen(head_a));
+	else
+		sort_small(&head_a, stacklen(head_a));
 
 	ft_printf("|COMMANDS|\n\n");
 	printlist(head_a);
@@ -213,5 +266,6 @@ int	main(int argc, char **argv)
 	printlist(head_b);
 	ft_printf("B\n");
 	ft_printf("AFTER \n");
+	ft_printf("List is sorted!!!\n");
 	return (0);
 }
