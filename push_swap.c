@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:18:35 by ttavares          #+#    #+#             */
-/*   Updated: 2023/02/07 18:16:44 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:02:11 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,44 @@ void	sort_small(t_stack **head_a, int size)
 
 }
 
+void	sort_medium(t_stack **head_a,t_stack **head_b, int size)
+{
+	t_stack *current;
+	int min;
+
+	current = *head_a;
+	min = (*head_a)->val;
+	while (!list_is_sorted(head_a, size) && stacklen(*head_a) != 0)
+	{
+		while (current != NULL)
+		{
+			if (min > current->val)
+			{
+				min = current->val;
+			}
+			current = current->next;
+		}
+		while (min != (*head_a)->val)
+			shiftup(head_a,'a');
+		push(head_a, head_b, 'b');
+		current = *head_a;
+		min = (*head_a)->val;
+		while (current != NULL)
+		{
+			if (min < current->val)
+				min = current->val;
+			current = current->next;
+		}
+		while (min != (*head_a)->val)
+			shiftup(head_a,'a');
+		push(head_a, head_b,'b');
+		sort_small(head_a, size - 2);
+		push(head_b,head_a, 'a');
+		shiftup(head_a,'a');
+		push(head_b,head_a,'a');
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*head_a;
@@ -248,16 +286,18 @@ int	main(int argc, char **argv)
 		insert_tail(&head_a, ft_atoi(argv[i]));
 		i++;
 	}
+	ft_printf("BEFORE \n\n");
 	printlist(head_a);
 	ft_printf("A\n");
 	printlist(head_b);
 	ft_printf("B\n");
-	ft_printf("BEFORE \n\n");
 	ft_printf("|COMMANDS|\n");
 
-	if (stacklen(head_a) > 3)
+	if ((stacklen(head_a) != 5) && (stacklen(head_a) != 3))
 		sort_big(&head_a,&head_b,stacklen(head_a));
-	else
+	else if (stacklen(head_a) == 5)
+		sort_medium(&head_a,&head_b,stacklen(head_a));
+	else if (stacklen(head_a) == 3)
 		sort_small(&head_a, stacklen(head_a));
 
 	ft_printf("|COMMANDS|\n\n");
