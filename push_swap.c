@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:18:35 by ttavares          #+#    #+#             */
-/*   Updated: 2023/02/07 19:02:11 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/03 16:17:44 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,43 +161,15 @@ int	list_is_sorted(t_stack **head_a, int size)
 	return (0);
 }
 
-void	sort_big(t_stack **head_a, t_stack **head_b,int size)
+void	sort_two(t_stack **head_a)
 {
-	t_stack	*current;
-	int min;
-	int	i;
-
-	current = *head_a;
-	min = (*head_a)->val;
-	i = 0;
-	while (!list_is_sorted(head_a, size) && stacklen(*head_a) != 0)
-	{
-		while (current != NULL)
-		{
-			if (min > current->val)
-				{
-					min = current->val;
-				}
-			current = current->next;
-		}
-		while (min != (*head_a)->val)
-		{
-			shiftup(head_a, 'a');
-		}
-		push(head_a, head_b, 'b');
-		if (*head_a != NULL)
-		{
-			min = (*head_a)->val;
-			current = *head_a;
-		}
-	}
-	while ((stacklen(*head_b) > 0))
-	{
-		push(head_b, head_a, 'a');
-	}
+	if((*head_a)->val > (*head_a)->next->val)
+		swap(head_a, 'a');
+	else
+		return;
 }
 
-void	sort_small(t_stack **head_a, int size)
+void	sort_three(t_stack **head_a, int size)
 {
 	while (!list_is_sorted(head_a, size) && stacklen(*head_a) != 0)
 	{
@@ -221,44 +193,51 @@ void	sort_small(t_stack **head_a, int size)
 
 }
 
-void	sort_medium(t_stack **head_a,t_stack **head_b, int size)
+void	sort_small(t_stack **head_a,t_stack **head_b, int size)
 {
 	t_stack *current;
-	int min;
+	int val_a;
+	int val_b;
+	int i;
 
-	current = *head_a;
-	min = (*head_a)->val;
+	i = 0;
 	while (!list_is_sorted(head_a, size) && stacklen(*head_a) != 0)
 	{
-		while (current != NULL)
+		while (stacklen(*head_a) > 3)
 		{
-			if (min > current->val)
+			push(head_a,head_b,'b');
+			i++;
+		}
+		sort_three(head_a, size - i);
+		while(stacklen(*head_b) != 0)
+		{
+			current = *head_a;
+			val_a = (*head_a)->val;
+			val_b = (*head_b)->val;
+			while (current != NULL)
 			{
-				min = current->val;
+				if (val_b > current->val)
+				val_a = current->val;
+				current = current->next;
 			}
-			current = current->next;
+			while (val_a != (*head_a)->val)
+				shiftup(head_a,'a');
+			if(val_b > val_a)
+				shiftup(head_a,'a');
+			push(head_b,head_a,'a');
+			val_a = (*head_a)->val;
+			current = *head_a;
+			while (current != NULL)
+			{
+				if (val_a > current->val)
+					val_a = current->val;
+				current = current->next;
+			}
+			while (val_a != (*head_a)->val)
+				shiftup(head_a,'a');
 		}
-		while (min != (*head_a)->val)
-			shiftup(head_a,'a');
-		push(head_a, head_b, 'b');
-		current = *head_a;
-		min = (*head_a)->val;
-		while (current != NULL)
-		{
-			if (min < current->val)
-				min = current->val;
-			current = current->next;
-		}
-		while (min != (*head_a)->val)
-			shiftup(head_a,'a');
-		push(head_a, head_b,'b');
-		sort_small(head_a, size - 2);
-		push(head_b,head_a, 'a');
-		shiftup(head_a,'a');
-		push(head_b,head_a,'a');
 	}
 }
-
 int	main(int argc, char **argv)
 {
 	t_stack	*head_a;
@@ -266,6 +245,7 @@ int	main(int argc, char **argv)
 
 	int		i;
 	int		j;
+
 	head_a = NULL;
 	head_b = NULL;
 	if (argc == 1)
@@ -274,38 +254,56 @@ int	main(int argc, char **argv)
 	while (argv[i] != NULL)
 	{
 		j = 0;
-		while (argv[i][j] != '\0')
+		if ((ft_atoi(argv[i]) >= -2147483647) && (ft_atoi(argv[i]) <= 2147483647))
 		{
-			if (!ft_isdigit(argv[i][j]))
-				{
-					ft_printf("Error\n");
-					return (0);
-				}
+			while (argv[i][j] != '\0')
+			{
+				if (argv[i][j] == '-')
+					j++;
+				if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
+					{
+						ft_printf("Error\n");
+						return (0);
+					}
 				j++;
+			}
 		}
+		else
+		{
+			ft_printf("Error\n");
+			return (0);
+		}
+		i++;
+	}
+
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		j = 1;
+		while (argv[j + i] != NULL)
+		{
+			if (ft_atoi(argv[i]) == ft_atoi(argv[j + i]))
+			{
+				ft_printf("Error\n");
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+
+	i = 1;
+	while (argv[i] != NULL)
+	{
 		insert_tail(&head_a, ft_atoi(argv[i]));
 		i++;
 	}
-	ft_printf("BEFORE \n\n");
-	printlist(head_a);
-	ft_printf("A\n");
-	printlist(head_b);
-	ft_printf("B\n");
-	ft_printf("|COMMANDS|\n");
 
-	if ((stacklen(head_a) != 5) && (stacklen(head_a) != 3))
-		sort_big(&head_a,&head_b,stacklen(head_a));
-	else if (stacklen(head_a) == 5)
-		sort_medium(&head_a,&head_b,stacklen(head_a));
+	if (stacklen(head_a) ==  2)
+		sort_two(&head_a);
 	else if (stacklen(head_a) == 3)
-		sort_small(&head_a, stacklen(head_a));
-
-	ft_printf("|COMMANDS|\n\n");
-	printlist(head_a);
-	ft_printf("A\n");
-	printlist(head_b);
-	ft_printf("B\n");
-	ft_printf("AFTER \n");
-	ft_printf("List is sorted!!!\n");
+		sort_three(&head_a, stacklen(head_a));
+	else
+		sort_small(&head_a, &head_b, stacklen(head_a));
 	return (0);
 }
