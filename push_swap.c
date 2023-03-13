@@ -6,19 +6,32 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:18:35 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/03 16:17:44 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:20:01 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	printlist(t_stack *current_a)
+void	printlist(t_stack **head_a,t_stack **head_b)
 {
-	while (current_a != NULL)
+	t_stack *current;
+
+	current = *head_a;
+	while (current != NULL)
 	{
-		ft_printf("%d ", current_a->val);
-		current_a = current_a->next;
+		ft_printf("%d ", current->val);
+		current = current->next;
 	}
+	ft_printf("A");
+	ft_printf("\n");
+	current = *head_b;
+	while (current != NULL)
+	{
+		ft_printf("%d ", current->val);
+		current = current->next;
+	}
+	ft_printf("B");
+	ft_printf("\n");
 }
 
 void	insert_head(t_stack **head, int value)
@@ -217,7 +230,7 @@ void	sort_small(t_stack **head_a,t_stack **head_b, int size)
 			while (current != NULL)
 			{
 				if (val_b > current->val)
-				val_a = current->val;
+					val_a = current->val;
 				current = current->next;
 			}
 			while (val_a != (*head_a)->val)
@@ -238,6 +251,90 @@ void	sort_small(t_stack **head_a,t_stack **head_b, int size)
 		}
 	}
 }
+
+void	sort_medium(t_stack **head_a,t_stack **head_b, int size)
+{
+	t_stack *current;
+	int maxb;
+	int minb;
+	int temp;
+	int nextmin;
+
+	while (!list_is_sorted(head_a, size) && stacklen(*head_a) != 0)
+	{
+		if (stacklen(*head_b) == 0)
+		{
+		maxb = (*head_a)->val;
+		push(head_a,head_b,'b');
+		printlist(head_a,head_b);
+		minb = (*head_a)->val;
+		push(head_a,head_b,'b');
+		printlist(head_a,head_b);
+		if (maxb > minb)
+		{
+			swap(head_b,'b');
+			printlist(head_a,head_b);
+		}
+		else if (maxb < minb)
+		{
+			temp = maxb;
+			maxb = minb;
+			minb = temp;
+		}
+		}
+		if ((*head_a)->val > maxb || (*head_a)->val < minb)
+		{
+			while ((*head_b)->val != maxb)
+			{
+				shiftup(head_b,'b');
+				printlist(head_a,head_b);
+			}
+			if ((*head_a)->val > maxb)
+				maxb = (*head_a)->val;
+			else if ((*head_a)->val < minb)
+				minb = (*head_a)->val;
+			push(head_a,head_b,'b');
+			printlist(head_a,head_b);
+
+		}
+		if (*head_a != NULL)
+		{
+			if ((*head_a)->val > minb && ((*head_a)->val < maxb))
+			{
+				current = *head_b;
+				nextmin = minb;
+				while (current != NULL)
+				{
+					if ((*head_a)->val > current->val && nextmin < current->val)
+						nextmin = current->val;
+					current = current->next;
+				}
+				ft_printf("Nextmin = %d \n", nextmin);
+				while ((*head_b)->val != nextmin)
+				{
+					shiftup(head_b,'b');
+					printlist(head_a,head_b);
+				}
+				push(head_a,head_b,'b');
+				printlist(head_a,head_b);
+			}
+		}
+		if (*head_a == NULL)
+		{
+			while ((*head_b)->val != maxb)
+			{
+				shiftup(head_b,'b');
+				printlist(head_a,head_b);
+			}
+			while (*head_b != NULL)
+			{
+				push(head_b,head_a,'a');
+				printlist(head_a,head_b);
+			}
+		}
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*head_a;
@@ -245,6 +342,7 @@ int	main(int argc, char **argv)
 
 	int		i;
 	int		j;
+	long tmp;
 
 	head_a = NULL;
 	head_b = NULL;
@@ -254,7 +352,8 @@ int	main(int argc, char **argv)
 	while (argv[i] != NULL)
 	{
 		j = 0;
-		if ((ft_atoi(argv[i]) >= -2147483647) && (ft_atoi(argv[i]) <= 2147483647))
+		tmp = ft_atoi(argv[i]);
+		if (tmp > -2147483648 && tmp < 2147483647)
 		{
 			while (argv[i][j] != '\0')
 			{
@@ -299,11 +398,17 @@ int	main(int argc, char **argv)
 		i++;
 	}
 
-	if (stacklen(head_a) ==  2)
+	ft_printf("BEGGINING SORTING WITH THIS LIST \n");
+	printlist(&head_a,&head_b);
+	if (stacklen(head_a) == 2)
 		sort_two(&head_a);
 	else if (stacklen(head_a) == 3)
 		sort_three(&head_a, stacklen(head_a));
-	else
+	else if(stacklen(head_a) == 4 || stacklen(head_a) == 5)
 		sort_small(&head_a, &head_b, stacklen(head_a));
+	else
+		sort_medium(&head_a,&head_b, stacklen(head_a));
+	ft_printf("FINISHED SORTING LIST GRATZ \n");
+	printlist(&head_a,&head_b);
 	return (0);
 }

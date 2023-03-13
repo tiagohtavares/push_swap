@@ -6,7 +6,7 @@
 #    By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/03 11:13:01 by ttavares          #+#    #+#              #
-#    Updated: 2023/01/19 15:24:42 by ttavares         ###   ########.fr        #
+#    Updated: 2023/03/13 17:11:04 by ttavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(PUSHSWAP): $(LIBFT)
-	$(CC) $(SRCPUSHSWAP) $(LIBFT) -o $(PUSHSWAP)
+	$(CC) -g $(SRCPUSHSWAP) $(LIBFT) -o $(PUSHSWAP)
 
 bonus:
 
