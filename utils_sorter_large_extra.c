@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:35:31 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/17 17:57:33 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/21 16:13:20 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ int	find_median(t_stack **head_a, t_stack **head_b, int chunk)
 	dupe_list(&a, &b, head_a, head_b);
 	order_simple_list(&a, &b, stacklen(a));
 	median = calc_median(&a, chunk);
-	clear(&a);
-	clear(&b);
+	clear(&a, &b);
 	return (median);
 }
 

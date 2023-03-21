@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 18:20:25 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/17 19:33:36 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/21 16:13:59 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,11 @@ int	calc_moves(t_stack **head_a, t_stack **head_b, int big)
 	tempa = NULL;
 	tempb = NULL;
 	dupe_list(&tempa, &tempb, head_a, head_b);
-	while (tempa->val >= big && tempa->next != NULL)
 	movesup = movesup_down_bigger(&tempa, big, 0);
-	clear(&tempa);
-	clear(&tempb);
+	clear(&tempa, &tempb);
 	dupe_list(&tempa, &tempb, head_a, head_b);
 	movesdown = movesup_down_bigger(&tempa, big, 1);
-	clear(&tempa);
-	clear(&tempb);
+	clear(&tempa, &tempb);
 	if (movesup <= movesdown)
 		return (0);
 	else
@@ -67,19 +64,14 @@ void	push_to_top(t_stack **head_a, t_stack **head_b, int big, int chunk)
 	i = 0;
 	while ((i < chunk) && *head_a != NULL)
 	{
-		if ((*head_a)->val < big)
-			push(head_a, head_b, 'b');
-		else
+		while ((*head_a)->val >= big && (*head_a)->next != NULL)
 		{
-			while ((*head_a)->val >= big && (*head_a)->next != NULL)
-			{
-				if (!calc_moves(head_a, head_b, big))
-					shiftup(head_a, 'a');
-				else
-					shiftdown(head_a, 'a');
-			}
-			push(head_a, head_b, 'b');
+			if (!calc_moves(head_a, head_b, big))
+				shiftup(head_a, 'a');
+			else
+				shiftdown(head_a, 'a');
 		}
+		push(head_a, head_b, 'b');
 		i++;
 	}
 }

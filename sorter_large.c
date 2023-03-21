@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:22:04 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/17 19:44:06 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/21 16:14:14 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ int	calc_moves_toa(t_stack **head_a, t_stack **head_b, int top)
 	tempb = NULL;
 	dupe_list(&tempa, &tempb, head_a, head_b);
 	movesup = movesup_down(&tempa, top, 0);
-	clear(&tempa);
-	clear(&tempb);
+	clear(&tempa, &tempb);
 	dupe_list(&tempa, &tempb, head_a, head_b);
 	movesdown = movesup_down(&tempa, top, 1);
-	clear(&tempa);
-	clear(&tempb);
+	clear(&tempa, &tempb);
 	if (movesup <= movesdown)
 		return (0);
 	else

@@ -6,7 +6,7 @@
 #    By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/03 11:13:01 by ttavares          #+#    #+#              #
-#    Updated: 2023/03/17 18:20:23 by ttavares         ###   ########.fr        #
+#    Updated: 2023/03/21 11:36:30 by ttavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT_DIR = ./libft
 CC	= cc -Wall -Wextra -Werror
 RM	= rm -f
 
-SRCPUSHSWAP =	push_swap.c operations.c arg_checker.c \
+SRCPUSHSWAP =	push_swap.c operations.c arg_checker.c\
 				utils_stack.c utils_stack_extra.c\
 				sorter_small.c utils_sorter_small.c \
 				sorter_large.c utils_sorter_large.c utils_sorter_large_extra.c utils_sorter_large_extra_one.c

@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:33:45 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/17 17:42:54 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/21 11:26:26 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_char(char **argv)
 	int		i;
 	int		j;
 
-	i = 1;
+	i = 0;
 	while (argv[i] != NULL)
 	{
 		j = 0;
@@ -70,7 +70,7 @@ int	check_range(char **argv)
 	int		i;
 	long	tmp;
 
-	i = 1;
+	i = 0;
 	while (argv[i] != NULL)
 	{
 		tmp = ft_atol(argv[i]);
@@ -89,7 +89,7 @@ int	check_doubles(char **argv)
 	int	i;
 	int	j;
 
-	i = 1;
+	i = 0;
 	while (argv[i] != NULL)
 	{
 		j = 1;
@@ -111,7 +111,7 @@ void	add_stack(char **argv, t_stack **head_a)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (argv[i] != NULL)
 	{
 		insert_tail(head_a, ft_atoi(argv[i]));

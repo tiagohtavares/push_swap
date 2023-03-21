@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:31:42 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/17 19:44:03 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/21 16:12:57 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ typedef struct s_stack
 	int				val;
 	struct s_stack	*next;
 }	t_stack;
-
+//push_swap.c
+void	arg_size_filter(t_stack **head_a, t_stack **head_b);
+int		one_argument_check(char **argv, t_stack **head_a, t_stack **head_b);
 //arg_checker.c
 int		check_char(char **argv);
 long	ft_atol(char *str);
@@ -39,7 +41,7 @@ void	insert_tail(t_stack **head, int value);
 int		stacklen(t_stack *head);
 int		list_is_sorted(t_stack **head_a, int size);
 //utils_stack_extra.c
-void	clear(t_stack **lst);
+void	clear(t_stack **head_a, t_stack **head_b);
 //sorter_small.c
 void	sort_two(t_stack **head_a);
 void	sort_three(t_stack **head_a, int size, char c);
