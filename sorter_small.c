@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 14:56:36 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/23 15:48:11 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 16:24:31 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ void	sort_small(t_stack **head_a, t_stack **head_b, int size)
 			i++;
 		}
 		sort_three(head_a, size - i, 'a');
-		while (stacklen(*head_b) != 0)
-		{
-			sort_small_utils(head_a, head_b, 'a');
-		}
+		small_pushto_a(head_a, head_b);
+		sort_a_calculated(head_a, head_b);
 	}
 }

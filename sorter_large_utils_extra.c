@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:35:31 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/23 15:56:00 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 16:25:11 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	order_simple_list(t_stack **head_a, t_stack **head_b, int size)
 		sort_three(head_a, size - i, 'x');
 		while (stacklen(*head_b) != 0)
 		{
-			sort_small_utils(head_a, head_b, 'x');
+			simple_stack_order(head_a, head_b, 'x');
 		}
 	}
 }

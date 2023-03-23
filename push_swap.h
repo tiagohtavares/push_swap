@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:31:42 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/23 16:00:33 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 16:19:03 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void	sort_two(t_stack **head_a);
 void	sort_three(t_stack **head_a, int size, char c);
 void	sort_small(t_stack **head_a, t_stack **head_b, int size);
 //sorter_small_utils.c
-void	sort_small_utils(t_stack **head_a, t_stack **head_b, char c);
-void	sort_small_utils_extra(t_stack **head_a, char c);
+void	small_pushto_a(t_stack **head_a, t_stack **head_b);
+//simple_stack_orderer.c
+void	simple_stack_order(t_stack **head_a, t_stack **head_b, char c);
+void	simple_stack_order_helper(t_stack **head_a, char c);
 //sorter_large.c
 void	sort_a_calculated(t_stack **head_a, t_stack **head_b);
 void	push_to_a_top(t_stack **head_a, t_stack **head_b, int chunk);
