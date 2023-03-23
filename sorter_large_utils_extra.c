@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_sorter_large_extra.c                         :+:      :+:    :+:   */
+/*   sorter_large_utils_extra.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:35:31 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/21 16:13:20 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 15:56:00 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,24 @@ int	find_median(t_stack **head_a, t_stack **head_b, int chunk)
 	return (median);
 }
 
-int	movesup_down(t_stack **lst, int top, int type)
+void	find_minmax(t_stack **head_a, int *maxa, int *mina)
 {
-	int	moves;
+	t_stack	*current;
 
-	moves = 0;
-	if (type == 0)
+	*maxa = (*head_a)->val;
+	current = *head_a;
+	while (current != NULL)
 	{
-		while ((*lst)->val != top && (*lst)->next != NULL)
-		{
-			shiftup(lst, 'x');
-			moves++;
-		}
+		if (*maxa <= current->val)
+			*maxa = current->val;
+		current = current->next;
 	}
-	else if (type == 1)
+	current = *head_a;
+	*mina = (*head_a)->val;
+	while (current != NULL)
 	{
-		while ((*lst)->val != top && (*lst)->next != NULL)
-		{
-			shiftdown(lst, 'x');
-			moves++;
-		}
+		if (*mina > current->val)
+			*mina = current->val;
+		current = current->next;
 	}
-	return (moves);
 }

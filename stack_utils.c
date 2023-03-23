@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_stack.c                                      :+:      :+:    :+:   */
+/*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 14:50:50 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/15 18:14:38 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 15:48:01 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,15 @@ void	insert_tail(t_stack **head, int value)
 	curr = *head;
 	new = malloc(sizeof(t_stack));
 	if (!new)
+	{
+		clear_one(&new);
 		exit(1);
+	}
 	new->next = NULL;
 	new->val = value;
 	if (*head == NULL)
 	{
+		free(*head);
 		*head = new;
 		return ;
 	}

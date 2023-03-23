@@ -6,32 +6,11 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:22:04 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/21 16:14:14 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 15:57:14 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	calc_moves_toa(t_stack **head_a, t_stack **head_b, int top)
-{
-	t_stack	*tempa;
-	t_stack	*tempb;
-	int		movesup;
-	int		movesdown;
-
-	tempa = NULL;
-	tempb = NULL;
-	dupe_list(&tempa, &tempb, head_a, head_b);
-	movesup = movesup_down(&tempa, top, 0);
-	clear(&tempa, &tempb);
-	dupe_list(&tempa, &tempb, head_a, head_b);
-	movesdown = movesup_down(&tempa, top, 1);
-	clear(&tempa, &tempb);
-	if (movesup <= movesdown)
-		return (0);
-	else
-		return (1);
-}
 
 void	sort_a_calculated(t_stack **head_a, t_stack **head_b)
 {
@@ -52,6 +31,43 @@ void	sort_a_calculated(t_stack **head_a, t_stack **head_b)
 			shiftup(head_a, 'a');
 		else
 			shiftdown(head_a, 'a');
+	}
+}
+
+void	push_to_a_top(t_stack **head_a, t_stack **head_b, int chunk)
+{
+	int		i;
+	int		maxa;
+	int		mina;
+
+	i = push_open_move(head_a, head_b, chunk);
+	find_minmax(head_a, &maxa, &mina);
+	while (i < chunk)
+	{
+		if (*head_b != NULL)
+			push_easy(head_a, head_b, &maxa, &mina);
+		if (*head_b != NULL)
+			push_middle(head_a, head_b, &maxa, &mina);
+		i++;
+	}
+}
+
+void	push_to_top(t_stack **head_a, t_stack **head_b, int big, int chunk)
+{
+	int		i;
+
+	i = 0;
+	while ((i < chunk) && *head_a != NULL)
+	{
+		while ((*head_a)->val >= big && (*head_a)->next != NULL)
+		{
+			if (!calc_moves(head_a, head_b, big))
+				shiftup(head_a, 'a');
+			else
+				shiftdown(head_a, 'a');
+		}
+		push(head_a, head_b, 'b');
+		i++;
 	}
 }
 

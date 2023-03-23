@@ -1,16 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_sorter_large_extra_one.c                     :+:      :+:    :+:   */
+/*   sorter_large_utils_extra_one.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 18:20:25 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/21 16:13:59 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 15:56:09 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	movesup_down(t_stack **lst, int top, int type)
+{
+	int	moves;
+
+	moves = 0;
+	if (type == 0)
+	{
+		while ((*lst)->val != top && (*lst)->next != NULL)
+		{
+			shiftup(lst, 'x');
+			moves++;
+		}
+	}
+	else if (type == 1)
+	{
+		while ((*lst)->val != top && (*lst)->next != NULL)
+		{
+			shiftdown(lst, 'x');
+			moves++;
+		}
+	}
+	return (moves);
+}
 
 int	movesup_down_bigger(t_stack **lst, int top, int type)
 {
@@ -57,21 +81,23 @@ int	calc_moves(t_stack **head_a, t_stack **head_b, int big)
 		return (1);
 }
 
-void	push_to_top(t_stack **head_a, t_stack **head_b, int big, int chunk)
+int	calc_moves_toa(t_stack **head_a, t_stack **head_b, int top)
 {
-	int		i;
+	t_stack	*tempa;
+	t_stack	*tempb;
+	int		movesup;
+	int		movesdown;
 
-	i = 0;
-	while ((i < chunk) && *head_a != NULL)
-	{
-		while ((*head_a)->val >= big && (*head_a)->next != NULL)
-		{
-			if (!calc_moves(head_a, head_b, big))
-				shiftup(head_a, 'a');
-			else
-				shiftdown(head_a, 'a');
-		}
-		push(head_a, head_b, 'b');
-		i++;
-	}
+	tempa = NULL;
+	tempb = NULL;
+	dupe_list(&tempa, &tempb, head_a, head_b);
+	movesup = movesup_down(&tempa, top, 0);
+	clear(&tempa, &tempb);
+	dupe_list(&tempa, &tempb, head_a, head_b);
+	movesdown = movesup_down(&tempa, top, 1);
+	clear(&tempa, &tempb);
+	if (movesup <= movesdown)
+		return (0);
+	else
+		return (1);
 }

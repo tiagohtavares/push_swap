@@ -6,7 +6,7 @@
 /*   By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:18:35 by ttavares          #+#    #+#             */
-/*   Updated: 2023/03/21 16:21:11 by ttavares         ###   ########.fr       */
+/*   Updated: 2023/03/23 15:42:50 by ttavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,30 @@ void	arg_size_filter(t_stack **head_a, t_stack **head_b)
 int	one_argument_check(char **str, t_stack **head_a, t_stack **head_b)
 {
 	char	**argv;
-	int		i;
 
-	i = 0;
 	argv = ft_split(str[1], ' ');
 	if (!check_range(argv))
+	{
+		argv_free(argv);
 		return (0);
+	}
 	if (!check_char(argv))
+	{
+		argv_free(argv);
 		return (0);
+	}
 	if (!check_doubles(argv))
+	{
+		argv_free(argv);
 		return (0);
+	}
 	add_stack(argv, head_a);
 	arg_size_filter(head_a, head_b);
+	argv_free(argv);
 	return (1);
 }
 
-int	sorter(t_stack **head_a, t_stack **head_b, char **argv)
+int	argument_check(t_stack **head_a, t_stack **head_b, char **argv)
 {
 	argv++;
 	if (!check_range(argv))
@@ -70,12 +78,13 @@ int	arg_sorter(int argc, char **argv, t_stack **head_a, t_stack **head_b)
 	}
 	else
 	{
-		if (!(sorter(head_a, head_b, argv)))
+		if (!(argument_check(head_a, head_b, argv)))
 		{
 			clear(head_a, head_b);
 			return (0);
 		}
 	}
+	clear(head_a, head_b);
 	return (1);
 }
 
