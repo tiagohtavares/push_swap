@@ -6,7 +6,7 @@
 #    By: ttavares <ttavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/03 11:13:01 by ttavares          #+#    #+#              #
-#    Updated: 2023/03/23 16:08:11 by ttavares         ###   ########.fr        #
+#    Updated: 2023/03/28 11:11:53 by ttavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT)
-	$(CC) -g $(SRCPUSHSWAP) $(LIBFT) -o $(NAME)
+	$(CC) $(SRCPUSHSWAP) $(LIBFT) -o $(NAME)
 
 bonus:
 
@@ -39,7 +39,7 @@ clean:
 	make clean -C $(LIBFT_DIR)
 
 fclean:	clean
-	$(RM) $(PUSHSWAP)
+	$(RM) $(NAME)
 	make fclean -C $(LIBFT_DIR)
 
 re:	fclean $(NAME)
