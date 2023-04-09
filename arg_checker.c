@@ -73,6 +73,11 @@ int	check_range(char **argv)
 	i = 0;
 	while (argv[i] != NULL)
 	{
+		if (ft_strlen(argv[i]) > 11)
+		{
+			ft_printf("Error\n");
+			return (0);
+		}
 		tmp = ft_atol(argv[i]);
 		if (!(tmp > -2147483648 && tmp < 2147483647))
 		{
