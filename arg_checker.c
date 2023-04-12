@@ -79,7 +79,7 @@ int	check_range(char **argv)
 			return (0);
 		}
 		tmp = ft_atol(argv[i]);
-		if (!(tmp > -2147483648 && tmp < 2147483647))
+		if (!(tmp >= -2147483648 && tmp <= 2147483647))
 		{
 			ft_printf("Error\n");
 			return (0);
