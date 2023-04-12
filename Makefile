@@ -43,5 +43,3 @@ fclean:	clean
 	make fclean -C $(LIBFT_DIR)
 
 re:	fclean $(NAME)
-
-.PHONY:	all clean fclean re bonus
